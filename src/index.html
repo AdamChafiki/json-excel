@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON-EXCEL</title>
+</head>
+<body>
+    <div id="downloadButtons"></div>
+    <script>
+        fetch('/files') 
+            .then(response => response.json())
+            .then(files => {
+                const downloadButtonsDiv = document.getElementById('downloadButtons');
+                files.forEach(file => {
+                    const button = document.createElement('button');
+                    button.textContent = `Download ${file}`;
+                    button.addEventListener('click', () => {
+                        window.location.href = `/download?file=${encodeURIComponent(file)}`;
+                    });
+                    downloadButtonsDiv.appendChild(button);
+                });
+            })
+            .catch(error => console.error('Error fetching files:', error));
+    </script>
+</body>
+</html>
